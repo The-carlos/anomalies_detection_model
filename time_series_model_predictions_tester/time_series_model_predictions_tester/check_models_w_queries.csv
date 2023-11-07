@@ -1,0 +1,147 @@
+razon_social,model_name,query_str,
+BIG BOLA,model_big_bola,"
+            SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+            FROM billpocketz32.transacciones AS t
+            LEFT JOIN operacion_bi.bi_merchants AS m
+            ON t.tran_usuario = m.id_merchant
+            WHERE t.tran_estatus = 'aprobada'
+            AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+            AND m.client IN (
+            'PIG930806GL1',
+            'CJF941024F7A',
+            'OEB1410238K9',
+            'CDJ2011111U4',
+            'ANL171011549'
+            )
+            AND t.tran_fechahora >= '2023-08-31';
+            ",x
+BRIO (YOMP),model_yomp,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'SCA070119MQ3') AND t.tran_fechahora >= '2023-08-31';",x
+CENTRO DE ENTRETENIMIENTO DEL RIO,model_entret_rio,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'CER060901G16') AND t.tran_fechahora >= '2023-08-31';",x
+COMPAÑIA OPERADORA AHIS,model_ahis,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'OAH091124PR3') AND t.tran_fechahora >= '2023-08-31';",x
+CV DIRECTO,model_directo,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'SFA8706028C6') AND t.tran_fechahora >= '2023-08-31';",x
+IMPULSORA EAGLE,model_eagle,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'IEA141216KQ1') AND t.tran_fechahora >= '2023-08-31';",x
+JUMAMEX,model_jumamex,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'JUM051123KYA') AND t.tran_fechahora >= '2023-08-31';",x
+MONTEPIO,model_montepio,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'MLS020424LM2') AND t.tran_fechahora >= '2023-08-31';",x
+ORGANIZACIÓN DE JUEGOS DE GUADALUPE,model_guadalupe,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'OJG130610HG2') AND t.tran_fechahora >= '2023-08-31';",x
+PALACE GAMING GROUP,model_group,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'PGG091023290') AND t.tran_fechahora >= '2023-08-31';",x
+PLAYERS PALACE,model_palace,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'PPA0708207I3') AND t.tran_fechahora >= '2023-08-31';",x
+PODER JUSTO,model_justo,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'PJU190215RN2') AND t.tran_fechahora >= '2023-08-31';",x
+SALUD DIGNA,model_digna,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'SDI121109B14') AND t.tran_fechahora >= '2023-08-31';",x
+VEZZALI SOLUCIONES ADMINISTRATIVAS,model_administrativas,"
+    SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+    FROM billpocketz32.transacciones AS t
+    LEFT JOIN operacion_bi.bi_merchants AS m
+    ON t.tran_usuario = m.id_merchant
+    WHERE t.tran_estatus = 'aprobada'
+    AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+    AND m.client IN (
+    'VSA180711KM6') AND t.tran_fechahora >= '2023-08-31';",x
+WINPOT,model_winpot,"
+            SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
+            FROM billpocketz32.transacciones AS t
+            LEFT JOIN operacion_bi.bi_merchants AS m
+            ON t.tran_usuario = m.id_merchant
+            WHERE t.tran_estatus = 'aprobada'
+            AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
+            AND m.client IN (
+            'AMT170314IP0',
+            'NME101203MB9'
+            )
+            AND t.tran_fechahora >= '2023-08-31';
+            ",x
