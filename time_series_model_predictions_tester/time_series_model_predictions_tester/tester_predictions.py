@@ -10,7 +10,7 @@ import numpy as np
 
 def query_generator(query_input, db, output_name):
 
-    main_address = "mysql+mysqldb://powerbi:2o2o_p0w3rbI@z32.bi.rds.reader.production.billpocket.com:3306/"
+    main_address = "mysqldatabaseaddress/"
 
     try:
         f = open(output_name)
@@ -38,8 +38,8 @@ def generate_queries(client_list):
     query_data = []
     base_query = """
     SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
-    FROM billpocketz32.transacciones AS t
-    LEFT JOIN operacion_bi.bi_merchants AS m
+    FROM tabla AS t
+    LEFT JOIN tabla AS m
     ON t.tran_usuario = m.id_merchant
     WHERE t.tran_estatus = 'aprobada'
     AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
@@ -47,34 +47,29 @@ def generate_queries(client_list):
     """
 
     for client in client_list:
-        if client in ('PIG930806GL1', 'CJF941024F7A', 'OEB1410238K9', 'CDJ2011111U4', 'ANL171011549'):
+        if client in ('lista-cleintes'):
             query = """
             SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
-            FROM billpocketz32.transacciones AS t
-            LEFT JOIN operacion_bi.bi_merchants AS m
+            FROM tablas AS t
+            LEFT JOIN tablas AS m
             ON t.tran_usuario = m.id_merchant
             WHERE t.tran_estatus = 'aprobada'
             AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
             AND m.client IN (
-            'PIG930806GL1',
-            'CJF941024F7A',
-            'OEB1410238K9',
-            'CDJ2011111U4',
-            'ANL171011549'
+            'lista-clientes'
             )
             AND t.tran_fechahora >= NOW() - INTERVAL 3 DAY;
             """
-        elif client in ('AMT170314IP0', 'NME101203MB9'):
+        elif client in ('lista-clientes'):
             query = """
             SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
-            FROM billpocketz32.transacciones AS t
-            LEFT JOIN operacion_bi.bi_merchants AS m
+            FROM tabla AS t
+            LEFT JOIN tabla AS m
             ON t.tran_usuario = m.id_merchant
             WHERE t.tran_estatus = 'aprobada'
             AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
             AND m.client IN (
-            'AMT170314IP0',
-            'NME101203MB9'
+            'lista-clientes'
             )
             AND t.tran_fechahora >= NOW() - INTERVAL 3 DAY;
             """
@@ -90,8 +85,8 @@ def generate_queries(client_list):
     return useful_data_models
     
 def df_creator_hourly(files_names):
-    path = r'C:\Users\csanchez_billpocket\Desktop\Billpocket\Data scientist\time_series_model_predictions_tester\data_for_predict\\'
-    path_to_save = r'C:\Users\csanchez_billpocket\Desktop\Billpocket\Data scientist\time_series_model_predictions_tester\two_hourly_data\\'
+    path = r'directorio\time_series_model_predictions_tester\data_for_predict\\'
+    path_to_save = r'directorio\time_series_model_predictions_tester\two_hourly_data\\'
     for file_name in files_names:
         file_df = pd.read_csv(os.path.join(path, file_name), parse_dates=['txn_date'], index_col='txn_date')
 
@@ -204,26 +199,7 @@ def create_lookback(dataset, look_back=14):
 
 #Queries por cliente
 
-client_list = ['OEB1410238K9',
-        'AMT170314IP0',
-        'PIG930806GL1',
-        'OAH091124PR3',
-        'VSA180711KM6',
-        'SCA070119MQ3',
-        'CDJ2011111U4',
-        'NME101203MB9',
-        'SDI121109B14',
-        'PPA0708207I3',
-        'CER060901G16',
-        'PJU190215RN2',
-        'JUM051123KYA',
-        'CJF941024F7A',
-        'MLS020424LM2',
-        'ANL171011549',
-        'PGG091023290',
-        'OJG130610HG2',
-        'IEA141216KQ1',
-        'SFA8706028C6']
+client_list = ['lista-clientes']
 
 print(f"Se generarán {len(client_list)} queries, de acuerdo al input.")
 queries_df = generate_queries(client_list)
@@ -235,7 +211,7 @@ print(f"Se generaron un total de {len(queries)} queries para ser procesadas.")
 
 db = "operacion_bi"
 
-path = r'C:\Users\csanchez_billpocket\Desktop\Billpocket\Data scientist\time_series_model_predictions_tester\data_for_predict\\'
+path = r'directorio\time_series_model_predictions_tester\data_for_predict\\'
 for element in range(len(queries_df)):
     query_generator(queries_df["query_str"][element], db, f"{path}{queries_df.razon_social[element]}_data.csv")
     print(f"Query {queries_df.razon_social[element]}")
@@ -263,7 +239,7 @@ print("Model successfully loaded!")
 
 #Crear predicciones por cliente
 
-data = pd.read_csv("C:\\Users\\csanchez_billpocket\\Desktop\\Billpocket\\Data scientist\\time_series_model_predictions_tester\\two_hourly_data\\_2hourly_CV DIRECTO_data.csv",
+data = pd.read_csv("directorio\\time_series_model_predictions_tester\\two_hourly_data\\_2hourly_CV DIRECTO_data.csv",
                    parse_dates=["txn_date"], index_col="txn_date")
 
 print("Data original:")

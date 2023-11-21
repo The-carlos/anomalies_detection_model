@@ -11,11 +11,11 @@ import glob
 
 
 # Obtener las variables de entorno
-aws_access_key_id = "ASIAUWHEZMROVMQJWCDP"
-aws_secret_access_key = "GdUXM6vSsNoQ0oMXOsiFg4dQG+k7kKVyW/shShU8"
-aws_session_token = "IQoJb3JpZ2luX2VjEAoaCXVzLXdlc3QtMiJGMEQCICyvjTe9ik3yu2V98t/j05wbHSPcm7kVgUKpS7TpvWRXAiAjYWzjrfVPcBPvCX8KndaT6Py8SDr3vSmBYUqwWZWFUSqWAwjz//////////8BEAQaDDMyMjYwMjM2MTk0OSIMTXXUwz1xdVUwtEQ+KuoCFeohbyxGcSMNFMOpHyWfRdSyr4zejNn2v7OUW0LpFv32BdQHu0dF9DN/6BjTSk5WC9yaPIdp4Q0vaJWt5U3cOJpNpDaJvy/xmTYv0tyU8lN+SArLmJ+w8OOrcA8ArGd8HEuigweO+AobzLov8nPVbpNBG1tWaEK6KsyxDqIpRXgA5AfzFm4ERoQnStuh+vedXNEC9bbpE/YXp/Ys+CLZ4IWkpyY3qVHKNN49i/fn4rbzB2YyX0WDgsNhEORQAUAiWaaIFEW9sgex1QYFiU8EN/aJ62OAAw0Kt0Cmdij/1bEEFiBi0Oysam9/kN1JrmKUPXPhIaeBONmn30weHowZs1IDH5qqmT4DehLT1DuLnVQgwl9+nQmgJR05cGDyP/DRQqD/gwQOzf+JVQJzIswwC4693MxkH0adfAv7/6j8Uh0qucWYDVWS2lTaCor93lM9jNaWhHvwZ64ho38R+8IBX1iCIrum5HjRPEYwlYyyqAY6pwFd14Ao9MJ2Y+/tWCESp0MZcJymg3LAgBpq/vpU7gf03Vt2jn0KGVc2v59iN/Xtg+ySndcALqKpm8GrkDe86/fhDf8C2qxj4g2FQQpvfqVtYBxA9EdiL2xk+2P4DrK2rDaXsaSalP8fbhspgBxXMtSQ3eydM3hHRc6w6+5j5XX+T9C5Xc0BwyfXwOa71ksiMDp8n4ABV2TqEPhrjZrnFyv9Y4NPAmyxvQ=="
-s3_staging_dir = "s3://billpocket-athena-results/"
-region_name = "us-east-1"
+aws_access_key_id = "Access-key-de-la-empresa"
+aws_secret_access_key = "secret-access-key-de-la-empresa"
+aws_session_token = "session-tokeen-de-la-empresa"
+s3_staging_dir = "s3-address"
+region_name = "region"
 
 
 #Data_generator
@@ -71,9 +71,9 @@ def athena_query(aws_access: str,
 # (fin +1)
 
 def queries_string_generator (start_date_input, end_date_input):
-    #start_date = datetime(2023, 3, 1)
+    
     start_date = start_date_input
-    #end_date = datetime(2023, 9, 1)
+    
     end_date = end_date_input
     print(f"Data from {start_date} to {end_date} will be collected")
     current_date = start_date
@@ -87,32 +87,13 @@ def queries_string_generator (start_date_input, end_date_input):
 
     base_query = """
     SELECT t."txn_date", t."tpv", m."client"
-    FROM "datalake"."bi_transactions" AS t
-    LEFT JOIN "datalake"."bi_merchants" AS m
+    FROM "datalake"."tabla" AS t
+    LEFT JOIN "datalake"."tabla" AS m
     ON t."id_merchant" = m."id_merchant"
     WHERE t."estatus" = 'aprobada'
     AND (t."txn_type" = 'venta' OR t."txn_type" = 'devolucion')
     AND m.client IN (
-        'OEB1410238K9',
-        'AMT170314IP0',
-        'PIG930806GL1',
-        'OAH091124PR3',
-        'VSA180711KM6',
-        'SCA070119MQ3',
-        'CDJ2011111U4',
-        'NME101203MB9',
-        'SDI121109B14',
-        'PPA0708207I3',
-        'CER060901G16',
-        'PJU190215RN2',
-        'JUM051123KYA',
-        'CJF941024F7A',
-        'MLS020424LM2',
-        'ANL171011549',
-        'PGG091023290',
-        'OJG130610HG2',
-        'IEA141216KQ1',
-        'SFA8706028C6')
+        'lista-clientes')
         AND t."txn_date" >= DATE('{}')
         AND t."txn_date" < DATE('{}');
     """

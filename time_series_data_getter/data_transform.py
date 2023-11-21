@@ -5,7 +5,7 @@ import os
 
 
 # Ruta de la carpeta donde se encuentran los archivos CSV
-carpeta = r'C:\Users\csanchez_billpocket\Desktop\Billpocket\Data scientist\time_series_data_getter\raw_data'
+carpeta = r'directorio\time_series_data_getter\raw_data'
 
 # Patrón para buscar archivos CSV (extension .csv)
 patron_csv = '*.csv'

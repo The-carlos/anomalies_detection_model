@@ -10,7 +10,7 @@ import numpy as np
 
 def query_generator(query_input, db, output_name):
 
-    main_address = "mysql+mysqldb://powerbi:2o2o_p0w3rbI@z32.bi.rds.reader.production.billpocket.com:3306/"
+    main_address = "mysq.database.address.predict/"
 
 #    try:
 #        f = open(output_name)
@@ -38,8 +38,8 @@ def generate_queries(client_list):
     query_data = []
     base_query = """
     SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
-    FROM billpocketz32.transacciones AS t
-    LEFT JOIN operacion_bi.bi_merchants AS m
+    FROM tabla AS t
+    LEFT JOIN tabla AS m
     ON t.tran_usuario = m.id_merchant
     WHERE t.tran_estatus = 'aprobada'
     AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
@@ -47,28 +47,24 @@ def generate_queries(client_list):
     """
 
     for client in client_list:
-        if client in ('PIG930806GL1', 'CJF941024F7A', 'OEB1410238K9', 'CDJ2011111U4', 'ANL171011549'):
+        if client in ('list-of-clients'):
             query = """
             SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
-            FROM billpocketz32.transacciones AS t
-            LEFT JOIN operacion_bi.bi_merchants AS m
+            FROM tabla AS t
+            LEFT JOIN tabla AS m
             ON t.tran_usuario = m.id_merchant
             WHERE t.tran_estatus = 'aprobada'
             AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
             AND m.client IN (
-            'PIG930806GL1',
-            'CJF941024F7A',
-            'OEB1410238K9',
-            'CDJ2011111U4',
-            'ANL171011549'
+            'list-of-clients'
             )
             AND t.tran_fechahora >= '2023-08-31';
             """
-        elif client in ('AMT170314IP0', 'NME101203MB9'):
+        elif client in ('list-of-clients'):
             query = """
             SELECT t.tran_fechahora AS txn_date, COALESCE(t.tran_monto,0) + COALESCE(t.tran_propina,0) AS tpv, m.client
-            FROM billpocketz32.transacciones AS t
-            LEFT JOIN operacion_bi.bi_merchants AS m
+            FROM tabla AS t
+            LEFT JOIN tabla AS m
             ON t.tran_usuario = m.id_merchant
             WHERE t.tran_estatus = 'aprobada'
             AND (t.tran_tipotransaccion = 'venta' OR t.tran_tipotransaccion = 'devolucion')
@@ -91,8 +87,8 @@ def generate_queries(client_list):
     return useful_data_models
     
 def df_creator_hourly(files_names):
-    path = r'C:\Users\csanchez_billpocket\Desktop\Billpocket\Data scientist\time_series_model_predictions_tester\data_for_predict\\'
-    path_to_save = r'C:\Users\csanchez_billpocket\Desktop\Billpocket\Data scientist\time_series_model_predictions_tester\two_hourly_data\\'
+    path = r'directorio\time_series_model_predictions_tester\data_for_predict\\'
+    path_to_save = r'directorio\Data scientist\time_series_model_predictions_tester\two_hourly_data\\'
     for file_name in files_names:
         file_df = pd.read_csv(os.path.join(path, file_name), parse_dates=['txn_date'], index_col='txn_date')
 
@@ -235,7 +231,7 @@ print(f"Se generarán {len(client_list)} queries, de acuerdo al input.")
 
 #db = "operacion_bi"
 
-path = r'C:\Users\csanchez_billpocket\Desktop\Billpocket\Data scientist\time_series_model_predictions_tester\data_for_predict\\'
+path = r'directorio\time_series_model_predictions_tester\data_for_predict\\'
 #for element in range(len(queries_df)):
 #    print(f"Creando query {queries_df.razon_social[element]}")
 #    query_generator(queries_df["query_str"][element], db, f"{path}{queries_df.razon_social[element]}_data_hist.csv")
@@ -264,7 +260,7 @@ print("Model successfully loaded!")
 
 #Crear predicciones por cliente
 
-data = pd.read_csv("C:\\Users\\csanchez_billpocket\\Desktop\\Billpocket\\Data scientist\\time_series_model_predictions_tester\\two_hourly_data\\_2hourly_hist_CV DIRECTO.csv",
+data = pd.read_csv("directorio\\time_series_model_predictions_tester\\two_hourly_data\\_2hourly_hist_CV DIRECTO.csv",
                    parse_dates=["txn_date"], index_col="txn_date")
 
 print("Data original:")
