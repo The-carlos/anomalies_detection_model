@@ -3,8 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from pyathena import connect
-import os
-import glob
+
 
 
 # Cargar variables de entorno desde el archivo .env
