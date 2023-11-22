@@ -48,7 +48,7 @@ To ensure everything will work properly, install all dependencies included in th
 
 ## Data wrangler
 
-First thing first. We need to get historical data to train the model. In order to achieve this I perform AWS Athena queries iteratively. I could do it using MySQL instead, but due to the large number of rows needed AWS Athena endup being the option with the best performance.
+First thing first. We need to get historical data to train the model. In order to achieve this I perform AWS Athena queries iteratively. I could do it using MySQL instead, but due to the large number of rows needed AWS Athena endup being the option with the best performance. I use the **_data_get.py_** script to perform the data wrangler.
 
 ### Libraries and enviroment variables.
 
@@ -206,5 +206,86 @@ queries_test = queries_string_generator(start, end)
 print(f"{len(queries_test)} queries fueron almacenadas")
 
 data_get(queries_test)
+
+```
+
+## Data transform
+
+As I mentioned, the script is designed to make two-hour interval predictions, the next step is to ransform the raw data into time intervals. Basically I just made a group_by using an interval and client_name. All the data transformation is in the **_data_transform.py_** script.
+
+```bash
+import pandas as pd
+import numpy as np
+import glob
+import os
+
+
+# Ruta de la carpeta donde se encuentran los archivos CSV
+carpeta = r'directorio\time_series_data_getter\raw_data'
+
+# Patrón para buscar archivos CSV (extension .csv)
+patron_csv = '*.csv'
+
+# Usar glob para encontrar archivos CSV en la carpeta
+archivos_csv = glob.glob(os.path.join(carpeta, patron_csv))
+
+# Imprimir la lista de nombres de archivos CSV encontrados
+files = [os.path.basename(archivo) for archivo in archivos_csv]
+
+print(files)
+
+def df_creator_hourly(files_names):
+    for file_name in files_names:
+        file_df = pd.read_csv(os.path.join(carpeta, file_name), parse_dates=['txn_date'], index_col='txn_date')
+        # Resetea el índice para evitar conflictos con el nombre 'txn_date'
+        file_df.reset_index(inplace=True)
+        # Crea una nueva columna 'interval' con los intervalos de 2 horas
+        file_df['interval'] = file_df['txn_date'].dt.floor('2H')
+        # Agrupa por 'interval' y 'client', y suma 'tpv'
+        test_file_data_2hourly = file_df.groupby(['interval', 'client'])['tpv'].sum().reset_index()
+        # Renombramos 'interval' a 'txn_date'
+        test_file_data_2hourly.rename(columns={'interval': 'txn_date'}, inplace=True)
+        print(f"{file_name} successfully grouped by 2-hour intervals and client!")
+        # Exporta el DataFrame resultante a un archivo CSV
+        test_file_data_2hourly.to_csv("2hourly_" + file_name, index=False)
+        print(f"{file_name} DataFrame successfully exported!")
+
+# Llama a la función con la lista de nombres de archivos
+df_creator_hourly(files)
+
+```
+## Data consolidation.
+Then, with the **_data_consolid.py_** script I took all the .CSV files generated for the 2-hourly intervals and concat them in a single file called _full_2_hourly.csv_
+```bash
+import pandas as pd
+import numpy as np
+import glob
+import os
+
+# Ruta de la carpeta donde se encuentran los archivos CSV
+carpeta = r'directorio\time_series_data_getter\2_hourly_data'
+
+# Patrón para buscar archivos CSV (extension .csv)
+patron_csv = '*.csv'
+
+# Usar glob para encontrar archivos CSV en la carpeta
+archivos_csv = glob.glob(os.path.join(carpeta, patron_csv))
+
+# Imprimir la lista de nombres de archivos CSV encontrados
+files = [os.path.basename(archivo) for archivo in archivos_csv]
+
+df_list = []
+
+for file in files:
+    ruta_completa = os.path.join(carpeta, file)
+    df_from_file = pd.read_csv(ruta_completa)
+    df_list.append(df_from_file)
+
+merged_df = pd.concat(df_list, ignore_index=True)
+print(merged_df)
+
+merged_df.to_csv(os.path.join(carpeta, "full_2_hourly.csv"), index = False)
+print("Full info successfully exported!")
+
 
 ```
